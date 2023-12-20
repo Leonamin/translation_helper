@@ -15,13 +15,35 @@ class FileDragAndDropViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addFiles(List<XFile> file) {
-    _fileList.addAll(file);
+  void addFiles(List<XFile> files) {
+    if (files.isEmpty) {
+      return;
+    }
+
+    for (final file in files) {
+      if (isFileExist(file.path)) {
+        continue;
+      }
+      _fileList.add(file);
+    }
+
     notifyListeners();
   }
 
-  void removeFile(int index) {
+  bool isFileExist(String path) {
+    return _fileList.any((element) => element.path == path);
+  }
+
+  void _removeFile(int index) {
     _fileList.removeAt(index);
     notifyListeners();
+  }
+
+  void onActionRemove(int index) {
+    _removeFile(index);
+  }
+
+  void onTapFile(int index) {
+    // GO TO EDIT
   }
 }

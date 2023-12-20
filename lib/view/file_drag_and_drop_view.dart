@@ -38,58 +38,84 @@ class _FileDragAndDropViewState extends State<FileDragAndDropView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            children: [
-              const Text(
-                FileDragAndDropView._strTitle,
-                style: TextStyles.title,
-              ),
-              const SizedBox(height: 32),
-              DropTarget(
-                onDragDone: (detail) {
-                  viewModel.addFiles(detail.files);
-                },
-                onDragEntered: (detail) {
-                  viewModel.setDragging(true);
-                },
-                onDragExited: (detail) {
-                  viewModel.setDragging(false);
-                },
-                child: DottedBorder(
-                  radius: const Radius.circular(8),
-                  dashPattern: const [5.0, 5.0],
-                  borderType: BorderType.RRect,
-                  child: Container(
-                    constraints: const BoxConstraints(
-                      minHeight: 200,
-                    ),
-                    child: const Center(
-                      child: Icon(Icons.upload_rounded, size: 64),
-                    ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(32),
+              child: Column(
+                children: [
+                  const Text(
+                    FileDragAndDropView._strTitle,
+                    style: TextStyles.title,
                   ),
-                ),
-              ),
-              const SizedBox(height: 32),
-              ListView.separated(
-                shrinkWrap: true,
-                itemBuilder: (context, index) => ListTile(
-                  title: Text(viewModel.fileList[index].name),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      viewModel.removeFile(index);
+                  const SizedBox(height: 32),
+                  DropTarget(
+                    onDragDone: (detail) {
+                      viewModel.addFiles(detail.files);
                     },
+                    onDragEntered: (detail) {
+                      viewModel.setDragging(true);
+                    },
+                    onDragExited: (detail) {
+                      viewModel.setDragging(false);
+                    },
+                    child: DottedBorder(
+                      radius: const Radius.circular(8),
+                      dashPattern: const [5.0, 5.0],
+                      borderType: BorderType.RRect,
+                      child: AnimatedContainer(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                          color: viewModel.isDragging
+                              ? Colors.black.withOpacity(0.5)
+                              : Colors.transparent,
+                        ),
+                        duration: const Duration(milliseconds: 300),
+                        child: Container(
+                          constraints: const BoxConstraints(
+                            minHeight: 200,
+                          ),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                          child: const Center(
+                            child: Icon(Icons.upload_rounded, size: 64),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                separatorBuilder: (context, index) => const Divider(),
-                itemCount: viewModel.fileList.length,
+                  const SizedBox(height: 32),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => ListTile(
+                      title: InkWell(
+                        onTap: () {
+                          viewModel.onTapFile(index);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            viewModel.fileList[index].name,
+                          ),
+                        ),
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () => viewModel.onActionRemove(index),
+                      ),
+                    ),
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemCount: viewModel.fileList.length,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
