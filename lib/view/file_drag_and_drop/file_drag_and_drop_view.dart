@@ -2,7 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:translation_helper/theme/text_styles.dart';
-import 'package:translation_helper/view/file_drag_and_drop_view_model.dart';
+import 'package:translation_helper/view/file_drag_and_drop/file_drag_and_drop_view_model.dart';
 
 class FileDragAndDropView extends StatefulWidget {
   const FileDragAndDropView({super.key});
