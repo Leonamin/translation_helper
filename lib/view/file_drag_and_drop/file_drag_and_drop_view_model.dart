@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 import 'package:translation_helper/routes.dart';
 import 'package:translation_helper/view/file_edit/file_edit_view.dart';
 
@@ -18,13 +21,26 @@ class FileDragAndDropViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addFiles(List<XFile> files) {
+  void onActionAddFiles(List<XFile> files) {
+    _handleFiles(files);
+  }
+
+  Future<bool> _checkIsFile(String filePath) {
+    return FileSystemEntity.isDirectory(filePath);
+  }
+
+  Future<void> _handleFiles(List<XFile> files) async {
     if (files.isEmpty) {
       return;
     }
 
     for (final file in files) {
-      if (isFileExist(file.path)) {
+      if (_isFileExist(file.path)) {
+        continue;
+      }
+      if (await _checkIsFile(file.path)) {
+        Logger().e('isDirectoryError : ${file.path}');
+        // TODO : 스낵바나 토스트 메시지로 알려주기
         continue;
       }
       _fileList.add(file);
@@ -33,7 +49,7 @@ class FileDragAndDropViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isFileExist(String path) {
+  bool _isFileExist(String path) {
     return _fileList.any((element) => element.path == path);
   }
 

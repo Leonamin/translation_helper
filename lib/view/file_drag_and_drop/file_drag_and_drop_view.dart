@@ -52,7 +52,7 @@ class _FileDragAndDropViewState extends State<FileDragAndDropView> {
                   const SizedBox(height: 32),
                   DropTarget(
                     onDragDone: (detail) {
-                      viewModel.addFiles(detail.files);
+                      viewModel.onActionAddFiles(detail.files);
                     },
                     onDragEntered: (detail) {
                       viewModel.setDragging(true);
