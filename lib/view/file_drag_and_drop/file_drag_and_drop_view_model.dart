@@ -1,5 +1,8 @@
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:translation_helper/routes.dart';
+import 'package:translation_helper/view/file_edit/file_edit_view.dart';
 
 class FileDragAndDropViewModel extends ChangeNotifier {
   FileDragAndDropViewModel();
@@ -43,7 +46,13 @@ class FileDragAndDropViewModel extends ChangeNotifier {
     _removeFile(index);
   }
 
-  void onTapFile(int index) {
+  void onTapFile(BuildContext context, int index) {
     // GO TO EDIT
+    context.goNamed(
+      ViewRoutes.fileDragAndDrop.name,
+      extra: FileEditViewArguments(
+        path: fileList[index].path,
+      ),
+    );
   }
 }

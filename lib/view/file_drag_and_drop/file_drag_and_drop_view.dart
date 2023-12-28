@@ -94,7 +94,7 @@ class _FileDragAndDropViewState extends State<FileDragAndDropView> {
                     itemBuilder: (context, index) => ListTile(
                       title: InkWell(
                         onTap: () {
-                          viewModel.onTapFile(index);
+                          viewModel.onTapFile(context, index);
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
