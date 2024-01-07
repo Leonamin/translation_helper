@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:translation_helper/theme/text_styles.dart';
 import 'package:translation_helper/view/file_edit/file_edit_view_model.dart';
 
 class FileEditViewArguments {
@@ -48,7 +49,29 @@ class _FileEditViewState extends State<FileEditView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(viewModel.filePath),
+        title: Text(viewModel.fileName),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: StreamBuilder(
+            stream: viewModel.getFileStream(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return SelectableText(
+                  snapshot.data.toString(),
+                  style: TextStyles.body,
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
+          // child: SelectableText(
+          //   viewModel.fileContent,
+          //   style: TextStyles.body,
+          // ),
+        ),
       ),
     );
   }
