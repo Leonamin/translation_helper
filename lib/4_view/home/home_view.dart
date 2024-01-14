@@ -31,7 +31,7 @@ class HomeView extends StatelessWidget {
                     builder: (context, child) => _DropZoneWidget(
                       isDragging: viewModel.isDragging,
                       onDragDone: (detail) {
-                        viewModel.onActionAddFiles(detail.files);
+                        viewModel.onActionAddFiles(context, detail.files);
                       },
                       onDragEndtered: (detail) {
                         viewModel.setDragging(true);
