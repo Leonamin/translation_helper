@@ -15,8 +15,18 @@ class TextStyles {
   static const TextStyle caption = TextStyle(
     fontSize: 14,
   );
+}
 
-  static TextStyle get medium => body.copyWith(
+extension TextStylesExt on TextStyle {
+  TextStyle get medium => copyWith(
         fontWeight: FontWeight.w500,
+      );
+
+  TextStyle get semibold => copyWith(
+        fontWeight: FontWeight.w600,
+      );
+
+  TextStyle get bold => copyWith(
+        fontWeight: FontWeight.w700,
       );
 }
