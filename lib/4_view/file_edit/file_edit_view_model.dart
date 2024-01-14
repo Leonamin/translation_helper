@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
-import 'package:translation_helper/view/file_edit/file_edit_view.dart';
+import 'package:translation_helper/4_view/file_edit/file_edit_view.dart';
 
 class FileEditViewModel extends ChangeNotifier {
   FileEditViewModel(this.arguments);

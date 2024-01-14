@@ -2,13 +2,10 @@ import 'dart:io';
 
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
-import 'package:translation_helper/routes.dart';
-import 'package:translation_helper/view/file_edit/file_edit_view.dart';
 
-class FileDragAndDropViewModel extends ChangeNotifier {
-  FileDragAndDropViewModel();
+class HomeViewModel extends ChangeNotifier {
+  HomeViewModel();
 
   bool _isDragging = false;
   bool get isDragging => _isDragging;
@@ -58,17 +55,12 @@ class FileDragAndDropViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onActionRemove(int index) {
+  void onTapRemove(int index) {
     _removeFile(index);
   }
 
   void onTapFile(BuildContext context, int index) {
     // GO TO EDIT
-    context.goNamed(
-      ViewRoutes.fileDragAndDrop.name,
-      extra: FileEditViewArguments(
-        path: fileList[index].path,
-      ),
-    );
+    // context.goNamed();
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:translation_helper/theme/text_styles.dart';
-import 'package:translation_helper/view/file_edit/file_edit_view_model.dart';
+import 'package:translation_helper/4_view/file_edit/file_edit_view_model.dart';
 
 class FileEditViewArguments {
   const FileEditViewArguments({
