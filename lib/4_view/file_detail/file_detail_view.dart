@@ -29,6 +29,9 @@ class FileDetailView extends StatelessWidget {
                 if (viewModel.isXmlFileKeyListMode) {
                   return _FoundKeyListWidget(
                     foundKeyList: viewModel.listKeyRecord,
+                    onTapRecord: (textRecord) {
+                      viewModel.onTapKeyRecord(context, textRecord);
+                    },
                   );
                 }
 
@@ -39,7 +42,32 @@ class FileDetailView extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Container(),
+            child: Container(
+                child: Center(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Column(
+                  children: [
+                    const Text(
+                      '번역된 내용',
+                      style: TextStyles.title,
+                    ),
+                    const SizedBox(height: 16),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: ListenableBuilder(
+                          listenable: viewModel,
+                          builder: (context, child) => Text(
+                            viewModel.translatedText,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )),
           ),
         ],
       ),
@@ -73,9 +101,11 @@ class _RawContentWidget extends StatelessWidget {
 class _FoundKeyListWidget extends StatelessWidget {
   const _FoundKeyListWidget({
     required this.foundKeyList,
+    this.onTapRecord,
   });
 
   final List<TextRecord> foundKeyList;
+  final Function(TextRecord)? onTapRecord;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +116,7 @@ class _FoundKeyListWidget extends StatelessWidget {
         final textRecord = foundKeyList[index];
         return _TextRecordWidget(
           textRecord: textRecord,
+          onTapRecord: onTapRecord,
         );
       },
       separatorBuilder: (context, index) => const SizedBox(height: 16),
@@ -96,29 +127,34 @@ class _FoundKeyListWidget extends StatelessWidget {
 class _TextRecordWidget extends StatelessWidget {
   const _TextRecordWidget({
     required this.textRecord,
+    this.onTapRecord,
   });
 
   final TextRecord textRecord;
+  final Function(TextRecord)? onTapRecord;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
+    return InkWell(
+      onTap: () => onTapRecord?.call(textRecord),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              textRecord.originalText,
-              style: TextStyles.body.medium,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                textRecord.originalText,
+                style: TextStyles.body.medium,
+              ),
+            ],
+          ),
         ),
       ),
     );
