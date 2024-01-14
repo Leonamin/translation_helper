@@ -14,7 +14,7 @@ class WorkSpaceModel {
 
   Future<RequestResult<List<WorkSpace>>> getWorkspaceList() =>
       handleRequest(() async {
-        return [];
+        return _workspaceList;
       });
 
   Future<RequestResult<int>> createWorkspace(WorkSpaceAddForm addForm) =>
