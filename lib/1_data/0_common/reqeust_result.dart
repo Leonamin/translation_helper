@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 class RequestResult<T> {
   RequestResult._();
 
@@ -69,7 +71,14 @@ Future<RequestResult<T>> handleRequest<T>(
   try {
     return RequestResult.success(await requestFunc());
   } catch (e) {
-    if (e is Exception) {
+    print(e);
+    if (e is DioException) {
+      return RequestResult.failure(
+        Exception(
+          'DioException: ${e.response?.data}',
+        ),
+      );
+    } else if (e is Exception) {
       return RequestResult.failure(e);
     } else {
       return RequestResult.failure(
